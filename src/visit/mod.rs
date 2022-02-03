@@ -475,5 +475,17 @@ pub trait EdgeCount : GraphBase {
 
 EdgeCount! {delegate_impl []}
 
+trait_template! {
+    /// A graph that allows access to the source and target indices of an edge.
+    #[allow(clippy::needless_arbitrary_self_type)]
+    pub trait EdgeEndpoints : GraphBase {
+        @section self
+        /// Access the source and target nodes for `e`.
+        fn edge_endpoints(self: &Self, e: Self::EdgeId) -> Option<(Self::NodeId, Self::NodeId)>;
+    }
+}
+
+EdgeEndpoints! {delegate_impl []}
+
 mod filter;
 mod reversed;

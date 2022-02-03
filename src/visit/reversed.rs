@@ -1,10 +1,10 @@
 use crate::{Direction, Incoming};
 
 use crate::visit::{
-    Data, EdgeCount, EdgeIndexable, EdgeRef, GetAdjacencyMatrix, GraphBase, GraphProp, GraphRef,
-    IntoEdgeReferences, IntoEdges, IntoEdgesDirected, IntoNeighbors, IntoNeighborsDirected,
-    IntoNodeIdentifiers, IntoNodeReferences, NodeCompactIndexable, NodeCount, NodeIndexable,
-    Visitable,
+    Data, EdgeCount, EdgeEndpoints, EdgeIndexable, EdgeRef, GetAdjacencyMatrix, GraphBase,
+    GraphProp, GraphRef, IntoEdgeReferences, IntoEdges, IntoEdgesDirected, IntoNeighbors,
+    IntoNeighborsDirected, IntoNodeIdentifiers, IntoNodeReferences, NodeCompactIndexable,
+    NodeCount, NodeIndexable, Visitable,
 };
 
 /// An edge-reversing graph adaptor.
@@ -164,6 +164,15 @@ where
     }
     fn size_hint(&self) -> (usize, Option<usize>) {
         self.iter.size_hint()
+    }
+}
+
+impl<G> EdgeEndpoints for Reversed<G>
+where
+    G: EdgeEndpoints,
+{
+    fn edge_endpoints(&self, e: Self::EdgeId) -> Option<(Self::NodeId, Self::NodeId)> {
+        self.0.edge_endpoints(e).map(|(s, t)| (t, s))
     }
 }
 

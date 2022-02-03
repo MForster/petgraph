@@ -2388,6 +2388,16 @@ where
     }
 }
 
+impl<N, E, Ty, Ix> visit::EdgeEndpoints for Graph<N, E, Ty, Ix>
+where
+    Ty: EdgeType,
+    Ix: IndexType,
+{
+    fn edge_endpoints(&self, e: EdgeIndex<Ix>) -> Option<(NodeIndex<Ix>, NodeIndex<Ix>)> {
+        self.edge_endpoints(e)
+    }
+}
+
 mod frozen;
 #[cfg(feature = "stable_graph")]
 pub mod stable_graph;
